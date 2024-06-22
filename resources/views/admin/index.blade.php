@@ -1,53 +1,64 @@
 @extends('layouts.app')
 
-@section('title', 'Admin Dashboard')
+@section('title', 'Panel de Administración')
 
 @section('content')
-<div class="flex min-h-screen bg-gradient-to-r from-pink-100 to-purple-300">
-  <!-- Sidebar -->
-  <aside class="fixed left-0 top-0 h-screen w-64 bg-white text-purple-800 flex flex-col justify-between shadow-lg">
-    <div>
-      <div class="p-4">
-        <h2 class="text-2xl font-bold drop-shadow-md">Menu</h2>
-      </div>
-      <nav class="mt-5">
-        <ul class="text-left">
-          <li class="py-2 hover:bg-purple-100 transition duration-300">
-            <a href="{{ route('calendar.index') }}" class="flex items-center px-4">
-              <span class="mr-2 drop-shadow-md"><i class="fas fa-calendar-alt"></i></span> Calendario
-            </a>
-          </li>
-          <li class="py-2 hover:bg-purple-100 transition duration-300">
-            <a href="{{ route('citas.index') }}" class="flex items-center px-4">
-              <span class="mr-2 drop-shadow-md"><i class="fas fa-users"></i></span> Citas
-            </a>
-          </li>
-          <li class="py-2 hover:bg-purple-100 transition duration-300">
-            <a class="flex items-center px-4">
-              <span class="mr-2 drop-shadow-md"><i class="fas fa-users-cog"></i></span> Gestión Usuarios
-            </a>
-          </li>
-          <li class="py-2 hover:bg-purple-100 transition duration-300">
-            <a class="flex items-center px-4">
-              <span class="mr-2 drop-shadow-md"><i class="fas fa-cogs"></i></span> Configuración
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <div class="p-4">
-      <a href="{{ route('login.destroy') }}" class="block py-2 px-4 bg-red-600 hover:bg-red-700 text-white text-center rounded-md transition duration-300 drop-shadow-md">Salir</a>
-    </div>
-  </aside>
+<div class="min-h-screen bg-gradient-to-r from-pink-100 to-purple-300">
+    <!-- Main Content -->
+    <div class="p-4 sm:p-6 md:p-10 mt-16 md:mt-0 md:ml-64 animate__animated animate__fadeIn">
+        <div class="bg-white p-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl">
+            <h1 class="text-2xl sm:text-3xl font-bold text-purple-800 drop-shadow-md mb-4">
+                ¡Bienvenido Administrador, {{ auth()->user()->name }}!
+            </h1>
+            <p class="text-base sm:text-lg font-medium text-gray-700">
+                Hoy es {{ \Carbon\Carbon::now()->isoFormat('dddd, D [de] MMMM [de] YYYY') }}
+                y son las <span class="font-semibold" id="current-time"></span>.
+            </p>
+            <p class="text-base sm:text-lg font-medium text-gray-700 mt-4">
+                Esperamos que tengas un excelente día gestionando tu plataforma.
+            </p>
 
-  <!-- Main Content -->
-  <div class="ml-64 flex-1 p-10">
-    <h1 class="text-3xl font-bold drop-shadow-md mb-4">Bienvenido Usuario Administrador</h1>
-    @yield('dashboard-content')
-  </div>
+            <!-- Quick Stats -->
+            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                @foreach(['Usuarios', 'Productos', 'Pedidos', 'Ingresos'] as $stat)
+                    <div class="bg-purple-100 p-4 rounded-lg shadow transition-all duration-300 hover:shadow-md hover:bg-purple-200">
+                        <h3 class="text-lg font-semibold text-purple-800">{{ $stat }}</h3>
+                        <p class="text-2xl font-bold text-purple-600">{{ rand(100, 1000) }}</p>
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="mt-8">
+                <h2 class="text-xl font-semibold text-purple-800 mb-4">Actividad Reciente</h2>
+                <ul class="space-y-2">
+                    @for ($i = 0; $i < 5; $i++)
+                        <li class="bg-gray-50 p-3 rounded-md shadow-sm transition-all duration-300 hover:bg-gray-100">
+                            <span class="font-medium text-purple-700">Usuario {{ $i + 1 }}</span> realizó una acción
+                        </li>
+                    @endfor
+                </ul>
+            </div>
+        </div>
+        @yield('dashboard-content')
+    </div>
 </div>
 @endsection
 
 @section('footer')
-<p class="text-purple-800 drop-shadow-md">&copy; 2024 NutriLife. Todos los derechos reservados.</p>
+<footer class="bg-purple-800 text-white py-4 text-center">
+    <p class="drop-shadow-md">&copy; {{ date('Y') }} NutriLife. Todos los derechos reservados.</p>
+</footer>
 @endsection
+
+@push('scripts')
+<script>
+    function updateTime() {
+        const now = new Date();
+        document.getElementById('current-time').textContent = now.toLocaleTimeString('es-ES');
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime(); // Initial call
+</script>
+@endpush
