@@ -32,6 +32,7 @@
 
   <!-- Main Content -->
   <div class="ml-64 flex-1 p-10">
+    <h1 class="text-3xl font-bold drop-shadow-md mb-4">Bienvenido Usuario </h1>
     @yield('dashboard-content')
   </div>
 </div>

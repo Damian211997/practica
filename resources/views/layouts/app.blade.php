@@ -93,35 +93,38 @@
       @yield('content')
     </div>
   </div>
-  <footer class="py-12 bg-gray-800 text-white">
-    <div class="container mx-auto text-center">
-      <div class="flex flex-wrap justify-between items-center">
-        <div class="w-full md:w-1/3 text-left mb-4 md:mb-0">
-          <h4 class="text-xl font-semibold">NutriLife</h4>
-          <p class="mt-2">Promoting healthy living through balanced nutrition and active lifestyles.</p>
-        </div>
-        <div class="w-full md:w-1/3 mb-4 md:mb-0">
-          <nav class="flex justify-center space-x-4">
-            <a href="#header" class="hover:underline">Home</a>
-            <a href="#about" class="hover:underline">About</a>
-            <a href="#services" class="hover:underline">Services</a>
-            <a href="#portfolio" class="hover:underline">Work</a>
-            <a href="#contact" class="hover:underline">Contact</a>
-          </nav>
-        </div>
-        <div class="w-full md:w-1/3 text-right">
-          <div class="flex justify-center md:justify-end space-x-4">
-            <a href="https://www.facebook.com" class="hover:text-gray-400"><span class="fab fa-facebook text-3xl"></span></a>
-            <a href="https://www.instagram.com" class="hover:text-gray-400"><span class="fab fa-instagram text-3xl"></span></a>
-            <a href="https://www.google.com" class="hover:text-gray-400"><span class="fab fa-google-plus text-3xl"></span></a>
-            <a href="https://www.linkedin.com" class="hover:text-gray-400"><span class="fab fa-linkedin text-3xl"></span></a>
+
+  @if (in_array(Route::currentRouteName(), ['about', 'login.index', 'register.index']))
+    <footer class="py-12 bg-gray-800 text-white">
+      <div class="container mx-auto text-center transform transition-all duration-500 hover:scale-105">
+        <div class="flex flex-wrap justify-between items-center">
+          <div class="w-full md:w-1/3 text-left mb-4 md:mb-0">
+            <h4 class="text-xl font-semibold">NutriLife</h4>
+            <p class="mt-2">Promoting healthy living through balanced nutrition and active lifestyles.</p>
+          </div>
+          <div class="w-full md:w-1/3 mb-4 md:mb-0">
+            <nav class="flex justify-center space-x-4">
+              <a href="#header" class="hover:underline">Home</a>
+              <a href="#about" class="hover:underline">About</a>
+              <a href="#services" class="hover:underline">Services</a>
+              <a href="#portfolio" class="hover:underline">Work</a>
+              <a href="#contact" class="hover:underline">Contact</a>
+            </nav>
+          </div>
+          <div class="w-full md:w-1/3 text-right">
+            <div class="flex justify-center md:justify-end space-x-4">
+              <a href="https://www.facebook.com" class="hover:text-gray-400"><span class="fab fa-facebook text-3xl"></span></a>
+              <a href="https://www.instagram.com" class="hover:text-gray-400"><span class="fab fa-instagram text-3xl"></span></a>
+              <a href="https://www.google.com" class="hover:text-gray-400"><span class="fab fa-google-plus text-3xl"></span></a>
+              <a href="https://www.linkedin.com" class="hover:text-gray-400"><span class="fab fa-linkedin text-3xl"></span></a>
+            </div>
           </div>
         </div>
+        <div class="mt-8">
+          <p>&copy; 2024 NutriLife. All rights reserved.</p>
+        </div>
       </div>
-      <div class="mt-8">
-        <p>&copy; 2024 NutriLife. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+    </footer>
+  @endif
 </body>
 </html>

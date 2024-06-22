@@ -3,8 +3,9 @@
 @section('title', 'Register')
 
 @section('content')
-<div class="block mx-auto my-12 p-8 bg-gradient-to-r from-purple-400 to-pink-500 w-1/3 rounded-lg shadow-lg">
-    <h1 class="text-3xl text-center font-bold text-white mb-6">Registrarse</h1>
+<div class="block mx-auto my-12 p-8 bg-gradient-to-r from-purple-400 to-pink-500 w-1/3 rounded-lg shadow-lg transform transition-all duration-500 hover:scale-105 hover:shadow-2xl">
+    <h1 class="text-3xl text-center font-bold text-white mb-6 animate-bounce">Únete a NutriLife</h1>
+    <p class="text-center text-white mb-6">Regístrate para comenzar tu viaje hacia una vida más saludable.</p>
     <form class="mt-4" method="POST" action="">
       @csrf
       <input type="text" class="rounded-md bg-white bg-opacity-20 w-full text-lg text-white placeholder-white placeholder-opacity-70 p-3 my-2 focus:outline-none focus:ring-2 focus:ring-white" placeholder="Nombre" id="name" name="name">
@@ -22,5 +23,6 @@
       <input type="password" class="rounded-md bg-white bg-opacity-20 w-full text-lg text-white placeholder-white placeholder-opacity-70 p-3 my-2 focus:outline-none focus:ring-2 focus:ring-white" placeholder="Confirmar contraseña" id="password_confirmation" name="password_confirmation">
       <button type="submit" class="rounded-md bg-white bg-opacity-20 w-full text-lg text-white font-semibold p-3 my-3 hover:bg-opacity-30 transition duration-300">Registrarse</button>
     </form>
+    <p class="text-center text-white mt-6">¿Ya tienes una cuenta? <a href="{{ route('login.index') }}" class="font-bold underline hover:text-white">Inicia sesión aquí</a></p>
   </div>
 @endsection
