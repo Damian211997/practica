@@ -58,11 +58,14 @@
           <nav class="mt-5">
             <ul class="text-left">
               <li class="py-2 hover:bg-purple-100 transition duration-300">
+<<<<<<< HEAD
                 <a href="{{ route('calendar.index') }}" class="flex items-center px-4">
                   <span class="mr-2 drop-shadow-md"><i class="fas fa-calendar-alt"></i></span> Calendario
                 </a>
               </li>
               <li class="py-2 hover:bg-purple-100 transition duration-300">
+=======
+>>>>>>> 517b251 (logical general actualizada)
                 <a href="{{ route('citas.index') }}" class="flex items-center px-4">
                   <span class="mr-2 drop-shadow-md"><i class="fas fa-users"></i></span> Citas
                 </a>
