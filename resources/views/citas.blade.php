@@ -3,56 +3,188 @@
 @section('title', 'Gestión de Citas - NutriLife')
 
 @section('content')
-<div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
-  <h1 class="text-5xl font-extrabold text-center text-purple-800 mb-6 animate__animated animate__fadeInDown">
-    Gestión de Citas
-  </h1>
-  <div class="w-32 h-2 bg-gradient-to-r from-pink-500 to-purple-600 mx-auto mb-12 rounded-full animate__animated animate__fadeInUp"></div>
+<div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
+    <h2 class="text-2xl font-semibold mb-4">Calendario de Citas</h2>
+    <div id='calendar' class="w-full h-[calc(100vh-300px)]"></div>
+  </div>
 
-  <div class="max-w-6xl mx-auto">
-    <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl overflow-hidden animate__animated animate__zoomIn">
-      <div class="overflow-x-auto">
-        <table class="min-w-full table-auto">
-          <thead class="bg-purple-100">
-            <tr>
-              <th class="px-4 py-3 text-left text-xs font-semibold text-purple-800 uppercase tracking-wider animate__animated animate__fadeInDown animate__delay-1s">Nombre</th>
-              <th class="px-4 py-3 text-left text-xs font-semibold text-purple-800 uppercase tracking-wider animate__animated animate__fadeInDown animate__delay-2s">Email</th>
-              <th class="px-4 py-3 text-left text-xs font-semibold text-purple-800 uppercase tracking-wider animate__animated animate__fadeInDown animate__delay-3s">Teléfono</th>
-              <th class="px-4 py-3 text-left text-xs font-semibold text-purple-800 uppercase tracking-wider animate__animated animate__fadeInDown animate__delay-4s">Fecha</th>
-              <th class="px-4 py-3 text-left text-xs font-semibold text-purple-800 uppercase tracking-wider animate__animated animate__fadeInDown animate__delay-5s">Hora</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-purple-200">
-            @foreach($citas as $cita)
-            <tr class="hover:bg-purple-50 transition-colors duration-200 animate__animated animate__fadeIn animate__delay-{{ $loop->iteration }}s">
-              <td class="px-4 py-4 whitespace-nowrap">{{ $cita->nombre }}</td>
-              <td class="px-4 py-4 whitespace-nowrap">{{ $cita->email }}</td>
-              <td class="px-4 py-4 whitespace-nowrap">{{ $cita->telefono }}</td>
-              <td class="px-4 py-4 whitespace-nowrap">{{ $cita->fecha }}</td>
-              <td class="px-4 py-4 whitespace-nowrap">{{ $cita->hora }}</td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
+  <!-- Card view for upcoming appointments -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    @foreach($citas as $cita)
+    <div class="bg-white rounded-lg shadow-lg p-4">
+      <h3 class="text-lg font-semibold text-purple-800">{{ $cita->nombre }}</h3>
+      <p class="text-sm text-gray-600"><strong>Fecha:</strong> {{ $cita->fecha }}</p>
+      <p class="text-sm text-gray-600"><strong>Hora:</strong> {{ $cita->hora }}</p>
+      <p class="text-sm text-gray-600"><strong>Email:</strong> {{ $cita->email }}</p>
+      <p class="text-sm text-gray-600"><strong>Teléfono:</strong> {{ $cita->telefono }}</p>
+    </div>
+    @endforeach
+  </div>
+</div>
+
+<!-- Modal para agregar cita -->
+<div id="addCitaModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+  <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+      <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+    </div>
+
+    <!-- Modal panel -->
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+      <form action="{{ route('citas.store') }}" method="POST">
+        @csrf
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="mb-4">
+            <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+            <input type="text" name="nombre" id="nombre" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm">
+          </div>
+          <div class="mb-4">
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" name="email" id="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm">
+          </div>
+          <div class="mb-4">
+            <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+            <input type="text" name="telefono" id="telefono" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm">
+          </div>
+          <div class="mb-4">
+            <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha</label>
+            <input type="date" name="fecha" id="fecha" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm">
+          </div>
+          <div class="mb-4">
+            <label for="hora" class="block text-sm font-medium text-gray-700">Hora</label>
+            <input type="time" name="hora" id="hora" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm">
+          </div>
+        </div>
+        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:ml-3 sm:w-auto sm:text-sm">
+            Agregar Cita
+          </button>
+          <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:mt-0 sm:w-auto sm:text-sm" onclick="closeModal()">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para mostrar información de la cita -->
+<div id="infoCitaModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+  <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+      <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+    </div>
+
+    <!-- Modal panel -->
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline-info">
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline-info">Información de la Cita</h3>
+        <div class="mt-2">
+          <p class="text-sm text-gray-500" id="citaInfo"></p>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:mt-0 sm:w-auto sm:text-sm" onclick="closeInfoModal()">
+          Cerrar
+        </button>
       </div>
     </div>
   </div>
 </div>
 
-<style>
-  @media (max-width: 640px) {
-    table {
-      font-size: 0.875rem;
-    }
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.css' rel='stylesheet' />
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'es',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,listWeek'
+      },
+      buttonText: {
+        today: 'Hoy',
+        month: 'Mes',
+        week: 'Semana',
+        list: 'Lista'
+      },
+      selectable: true,
+      select: function(info) {
+        document.getElementById('fecha').value = info.startStr;
+        openModal();
+      },
+      eventClick: function(info) {
+        var eventObj = info.event;
+        document.getElementById('citaInfo').innerHTML = `
+          <strong>Nombre:</strong> ${eventObj.title}<br>
+          <strong>Fecha:</strong> ${eventObj.start.toLocaleDateString()}<br>
+          <strong>Hora:</strong> ${eventObj.start.toLocaleTimeString()}
+        `;
+        openInfoModal();
+      },
+      events: [
+        @foreach($citas as $cita)
+        {
+          title: '{{ $cita->nombre }}',
+          start: '{{ $cita->fecha }}T{{ $cita->hora }}',
+          backgroundColor: '#8b5cf6',
+          borderColor: '#7c3aed'
+        },
+        @endforeach
+      ]
+    });
+    calendar.render();
+  });
+
+  function openModal() {
+    document.getElementById('addCitaModal').classList.remove('hidden');
   }
 
-  .animate__delay-1s { --animate-delay: 0.2s; }
-  .animate__delay-2s { --animate-delay: 0.4s; }
-  .animate__delay-3s { --animate-delay: 0.6s; }
-  .animate__delay-4s { --animate-delay: 0.8s; }
-  .animate__delay-5s { --animate-delay: 1s; }
+  function closeModal() {
+    document.getElementById('addCitaModal').classList.add('hidden');
+  }
+
+  function openInfoModal() {
+    document.getElementById('infoCitaModal').classList.remove('hidden');
+  }
+
+  function closeInfoModal() {
+    document.getElementById('infoCitaModal').classList.add('hidden');
+  }
+</script>
+
+<style>
+  .fc {
+    font-family: 'Arial', sans-serif;
+  }
+  .fc-toolbar-title {
+    font-size: 1.5em !important;
+    color: #5a1e96;
+  }
+  .fc-button-primary {
+    background-color: #7c3aed !important;
+    border-color: #7c3aed !important;
+  }
+  .fc-day-today {
+    background-color: #f3e8ff !important;
+  }
+  .fc-event {
+    background-color: #8b5cf6;
+    border-color: #7c3aed;
+  }
+  @media (max-width: 640px) {
+    .fc-toolbar {
+      flex-direction: column;
+    }
+    .fc-toolbar-title {
+      font-size: 1.2em !important;
+    }
+  }
 </style>
 
-<!-- Incluye la librería Animate.css -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 @endsection
