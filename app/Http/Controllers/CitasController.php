@@ -23,7 +23,16 @@ class CitasController extends Controller
             'hora' => 'required|date_format:H:i',
         ]);
 
-        Cita::create($request->all());
+        $cita = new Cita([
+            'nombre' => $request->get('nombre'),
+            'email' => $request->get('email'),
+            'telefono' => $request->get('telefono'),
+            'fecha' => $request->get('fecha'),
+            'hora' => $request->get('hora'),
+            'user_id' => auth()->id(), // Asignar el user_id del usuario autenticado
+        ]);
+
+        $cita->save();
 
         return redirect()->route('citas.index')->with('success', 'Cita guardada con éxito');
     }

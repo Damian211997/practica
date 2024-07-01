@@ -10,12 +10,16 @@ class CreateCitasTable extends Migration
     {
         Schema::create('citas', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable(); // Permitir valores nulos
             $table->string('nombre');
             $table->string('email');
             $table->string('telefono')->nullable();
             $table->date('fecha');
             $table->time('hora');
             $table->timestamps();
+
+            // Definir la clave foránea
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -24,3 +28,4 @@ class CreateCitasTable extends Migration
         Schema::dropIfExists('citas');
     }
 }
+

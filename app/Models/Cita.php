@@ -10,6 +10,16 @@ class Cita extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombre', 'email', 'telefono', 'fecha', 'hora'
+        'user_id',
+        'nombre',
+        'email',
+        'telefono',
+        'fecha',
+        'hora',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
